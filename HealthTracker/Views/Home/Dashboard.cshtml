@@ -1,8 +1,315 @@
-﻿@model UserInformation;
+﻿@using Newtonsoft.Json
+@model UserInformation;
+
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <a class="btn btn-primary" asp-controller="Home" asp-action="Dashboard" id="Dashboard" asp-route-from="@DateTime.UtcNow.AddDays(-7)">Last 7 days</a>
+    <a class="btn btn-primary" asp-controller="Home" asp-action="Dashboard" id="Dashboard" asp-route-from="@DateTime.UtcNow.AddDays(-30)">Last 30 days</a>
+        <a class="btn btn-primary" asp-controller="Home" asp-action="Dashboard" id="Dashboard" asp-route-from="@DateTime.UtcNow.AddDays(-365)">Last year</a>
+    <div class="row mt-1">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>Dietary Intake <span class="small">(@Model.RecommendedWater liters of water & @Model.RecommendedCalories calories)</span></h4>
+            <button type="button" class="btn btn-primary btn-width" data-bs-toggle="modal" data-bs-target="#dietaryModal">
+                Add New
+            </button>
+        </div>
+        <div id="dietaryChart"></div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-6">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4>Blood Pressure <span class="small">(@Model.NormalBp mm Hg)</span></h4>
+                <button type="button" class="btn btn-primary btn-width" data-bs-toggle="modal" data-bs-target="#bpModal">
+                    Add New
+                </button>
+            </div>
+            <div id="bpChart"></div>
+        </div>
+        <div class="col-6">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4>Sleep <span class="small">(@Model.RecommendedSleep hours)</span></h4>
+                <button type="button" class="btn btn-primary btn-width" data-bs-toggle="modal" data-bs-target="#sleepModal">
+                    Add New
+                </button>
+            </div>
+            <div id="sleepChart"></div>
+        </div>
+    </div>
+</div>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<!-- Dietary Modal -->
+<div class="modal fade" id="dietaryModal" tabindex="-1" aria-labelledby="dietaryModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dietaryModalLabel">Add Dietary Intake</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Home" asp-action="AddDietaryIntake" method="post">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Calories">Calories</label>
+                            <input name="Calories" type="number" class="form-control" id="Calories">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Water">Water (liters)</label>
+                            <input name="Water" type="text" class="form-control" id="Water">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Date">Date</label>
+                            <input name="Date" type="text" class="datepicker form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Bp Modal -->
+<div class="modal fade" id="bpModal" tabindex="-1" aria-labelledby="bpModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bpModalLabel">Add Dietary Intake</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Home" asp-action="AddBloodPressure" method="post">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Systolic">Systolic (mm Hg)</label>
+                            <input name="Systolic" type="number" class="form-control" id="Systolic">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Diastolic">Diastolic (mm Hg)</label>
+                            <input name="Diastolic" type="number" class="form-control" id="Diastolic">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Date">Date</label>
+                            <input name="Date" type="text" class="datepicker form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Sleep Modal -->
+<div class="modal fade" id="sleepModal" tabindex="-1" aria-labelledby="sleepModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sleepModalLabel">Add Dietary Intake</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Home" asp-action="AddDailySleep" method="post">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Hours">Hours</label>
+                            <input name="Hours" type="number" class="form-control" id="Hours">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Date">Date</label>
+                            <input name="Date" type="text" class="datepicker form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+        $(function() {
+            $('#Dashboard').addClass("active");
+        });
+    </script>
+    <script>
+        // Get X Axis Values
+        var dates = @Html.Raw(JsonConvert.SerializeObject(Model.Dates));
+        // Get Y Axis Values
+        var waterValues = @Html.Raw(JsonConvert.SerializeObject(Model.WaterValues));
+        var calorieValues = @Html.Raw(JsonConvert.SerializeObject(Model.CalorieValues));
+        var sysValues = @Html.Raw(JsonConvert.SerializeObject(Model.SysValues));
+        var diaValues = @Html.Raw(JsonConvert.SerializeObject(Model.DiaValues));
+        var sleepValues = @Html.Raw(JsonConvert.SerializeObject(Model.SleepValues));
+        // dietaryChart
+        var normalBp = '@Model.NormalBp'.split('/');
+        console.log(normalBp);
+        var normalSys = normalBp[0];
+        var normalDia = normalBp[1];
+        var recommendedSleep = '@Model.RecommendedSleep';
+        var options = {
+            chart: {
+                height: 350,
+                type: 'area'
+            },
+            stroke: {
+                curve: 'smooth',
+            },
+            dataLabels: {
+                enabled: false
+            },
+            colors: ["#FF1654", "#247BA0"],
+            series: [
+                {
+                    name: "Calories",
+                    data: calorieValues
+                },
+                {
+                    name: "Water",
+                    data: waterValues
+                }
+            ],
+            xaxis: {
+                categories: dates
+            },
+            yaxis: [
+                {
+                    title: {
+                        text: "Calories"
+                    },
+                },
+                {
+                    opposite: true,
+                    title: {
+                        text: "Water"
+                    }
+                }
+            ]
+        }
+        var dietaryChart = new ApexCharts(document.querySelector("#dietaryChart"), options);
+        dietaryChart.render();
+        // bpChart
+        var options = {
+            chart: {
+                height: 350,
+                type: 'bar'
+            },
+            colors: ["#FF1654", "#247BA0"],
+            dataLabels: {
+                enabled: false
+            },
+            series: [{
+                name: 'Systolic',
+                data: sysValues
+            }, {
+                name: 'Diastolic',
+                data: diaValues
+            }],
+            xaxis: {
+                categories: dates
+            },
+            yaxis: {
+                title: {
+                    text: 'mm Hg'
+                }
+            },
+            annotations: {
+                yaxis: [
+                    {
+                        y: normalSys,
+                        borderColor: '#FF1654',
+                        label: {
+                            borderColor: '#FF1654',
+                            style: {
+                                color: '#fff',
+                                background: '#FF1654'
+                            },
+                            text: 'Systolic: ' + normalSys
+                        }
+                    },
+                    {
+                        y: normalDia,
+                        opposite: true,
+                        borderColor: '#247BA0',
+                        label: {
+                            borderColor: '#247BA0',
+                            style: {
+                                color: '#fff',
+                                background: '#247BA0'
+                            },
+                            text: 'Diastolic: ' + normalDia
+                        }
+                    }
+                ]
+            }
+        }
+        var bpChart = new ApexCharts(document.querySelector("#bpChart"), options);
+        bpChart.render();
+        // sleepChart
+        var options = {
+            chart: {
+                height: 350,
+                type: 'bar'
+            },
+            colors: ["#FF1654"],
+            series: [{
+                data: sleepValues
+            }],
+            dataLabels: {
+                enabled: false
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true
+                }
+            },
+            xaxis: {
+                categories: dates
+            },
+            yaxis: [
+                {
+                    title: {
+                        text: "Hours"
+                    },
+                }
+            ],
+            annotations: {
+                xaxis: [
+                    {
+                        x: recommendedSleep,
+                        borderColor: '#FF1654',
+                        label: {
+                            borderColor: '#FF1654',
+                            style: {
+                                color: '#fff',
+                                background: '#FF1654'
+                            },
+                            text: 'Hours: ' + recommendedSleep
+                        }
+                    }
+                ]
+            }
+        }
+        var sleepChart = new ApexCharts(document.querySelector("#sleepChart"), options);
+        sleepChart.render();
+    </script>
+
+}

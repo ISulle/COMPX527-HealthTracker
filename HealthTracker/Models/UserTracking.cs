@@ -1,41 +1,27 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using HealthTracker.Data;
+using Microsoft.VisualBasic;
 
 namespace HealthTracker.Models;
 
-public class UserTracking
-{
-    [DynamoDBProperty("dietaryTracking")]
-    public List<DietaryTracking> DietaryTracking { get; set; }
-
-    [DynamoDBProperty("BPTracking")]
-    public List<BPTracking> BPTracking { get; set; }
-
-    [DynamoDBProperty("sleepTracking")]
-    public List<SleepTracking> SleepTracking { get; set; }
-
-    public UserTracking()
-    {
-        DietaryTracking = new List<DietaryTracking>();
-        BPTracking = new List<BPTracking>();
-        SleepTracking = new List<SleepTracking>();
-    }
-}
-
 public class BaseTracking
 {
-    [DynamoDBProperty("date")] // time since epoch
-    public long Date { get; set; }
+    [DynamoDBProperty("date")]
+    public string Date { get; set; }
 
     public BaseTracking()
     {
-        Date = Helpers.TimeSinceEpoch(DateTime.UtcNow);
+    }
+
+    public BaseTracking(DateTime date)
+    {
+        Date = date.ToString("MM/dd/yyyy");
     }
 }
 
 public class DietaryTracking : BaseTracking
 {
-    [DynamoDBProperty("water")]
+    [DynamoDBProperty("water")] // in liters
     public double Water { get; set; }
 
     [DynamoDBProperty("calories")]
@@ -43,6 +29,12 @@ public class DietaryTracking : BaseTracking
 
     public DietaryTracking() : base()
     {
+    }
+
+    public DietaryTracking(DateTime date, double water, double calories) : base(date)
+    {
+        Water = water;
+        Calories = calories;
     }
 }
 
@@ -57,6 +49,12 @@ public class BPTracking : BaseTracking
     public BPTracking() : base()
     {
     }
+
+    public BPTracking(DateTime date, double systolic, double diastolic) : base(date)
+    {
+        Systolic = systolic;
+        Diastolic = diastolic;
+    }
 }
 
 public class SleepTracking : BaseTracking
@@ -64,8 +62,12 @@ public class SleepTracking : BaseTracking
     [DynamoDBProperty("hours")]
     public double Hours { get; set; }
 
-
     public SleepTracking() : base()
     {
+    }
+
+    public SleepTracking(DateTime date, double hours) : base(date)
+    {
+        Hours = hours;
     }
 }

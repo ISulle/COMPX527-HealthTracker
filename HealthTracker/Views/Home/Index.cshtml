@@ -1,12 +1,25 @@
-﻿@model UserInformation;
+﻿@using HealthTracker.Data
+@model UserInformation;
 
 @{
     ViewData["Title"] = "Profile";
+    var bmiColor = Helpers.CalculateBMIColor(Model.BMI);
 }
 
-<div>Name: @Model.Name</div>
-<div>Height (cm): @Model.Height</div>
-<div>Weight (kg): @Model.Weight</div>
-<div>BMI: @Model.BMI</div>
-<div>DOB: @{ new DateTime(1970, 1, 1).AddSeconds(@Model.DOB);}</div>
-<div>Age: @Model.Age years</div>
+<div class="container">
+    <h1>Profile</h1>
+    <div>Name: @Model.Name</div>
+    <div>Height (cm): @Model.Height</div>
+    <div>Weight (kg): @Model.Weight</div>
+    <div>BMI: @Model.BMI <span class="@bmiColor">(@Model.BMIState)</span></div>
+    <div>DOB: @Model.DOB</div>
+    <div>Age: @Model.Age years</div>
+</div>
+
+@section scripts {
+    <script>
+        $(function(){
+            $('#Profile').addClass("active");
+        });
+    </script>
+}

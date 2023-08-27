@@ -16,3 +16,19 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.orange {
+    color: orange;
+}
+
+.btn-width {
+    max-width: 100px
+}

@@ -32,19 +32,9 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="DOB">Date of Birth</label>
-                <input name="DOB" type="text" class="datepicker" id="DOB">
+                <input name="DOB" type="text" class="datepicker form-control" id="DOB">
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Sign in</button>
     </form>
 </div>
-
-@section scripts {
-    <script>
-        $(function(){
-            $('.datepicker').datepicker({
-                format: 'mm/dd/yyyy'
-            });
-        });
-    </script>
-} 
