@@ -1,0 +1,12 @@
+﻿@model UserInformation;
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div>Name: @Model.Name</div>
+<div>Height (cm): @Model.Height</div>
+<div>Weight (kg): @Model.Weight</div>
+<div>BMI: @Model.BMI</div>
+<div>DOB: @{ new DateTime(1970, 1, 1).AddSeconds(@Model.DOB);}</div>
+<div>Age: @Model.Age years</div>
