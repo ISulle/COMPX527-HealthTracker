@@ -18,13 +18,10 @@ public class HomeController : Controller
 
     public HomeController(IDynamoDBContext context, IConfiguration config)
     {
-        var credentials = new BasicAWSCredentials(config["AWS:AccessKey"], config["AWS:SecretKey"]);
-        var client = new AmazonDynamoDBClient(credentials, RegionEndpoint.APSoutheast2);
-        _context = new DynamoDBContext(client);
-
-        //_context = context;
-        //string accessToken = HttpContext.GetTokenAsync("access_token").Result;
-
+        //var credentials = new BasicAWSCredentials(config["AWS:AccessKey"], config["AWS:SecretKey"]);
+        //var client = new AmazonDynamoDBClient(credentials, RegionEndpoint.APSoutheast2);
+        //_context = new DynamoDBContext(client);
+        _context = context;
     }
 
     private string GetUsername()
