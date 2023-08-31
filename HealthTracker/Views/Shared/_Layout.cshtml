@@ -26,6 +26,9 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Dashboard" id="Dashboard" asp-route-from="@DateTime.UtcNow.AddDays(-7)">Dashboard</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Diabetes" id="Diabetes">Diabetes Prediction</a>
+                        </li>
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {

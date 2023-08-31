@@ -8,12 +8,56 @@
 
 <div class="container">
     <h1>Profile</h1>
-    <div>Name: @Model.Name</div>
-    <div>Height (cm): @Model.Height</div>
-    <div>Weight (kg): @Model.Weight</div>
-    <div>BMI: @Model.BMI <span class="@bmiColor">(@Model.BMIState)</span></div>
-    <div>DOB: @Model.DOB</div>
-    <div>Age: @Model.Age years</div>
+    <form asp-controller="Home" asp-action="Index" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Name">Name</label>
+                <input name="Name" type="text" class="form-control" id="Name" value="@Model.Name">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Height">Height (cm)</label>
+                <input name="Height" type="number" class="form-control" id="Height" value="@Model.Height">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="Weight">Weight (kg)</label>
+                <input name="Weight" type="number" class="form-control" id="Weight" value="@Model.Weight">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Gender">Gender</label>
+                <select name="Gender" id="Gender" class="form-control">
+                    @if (Model.Gender == "Male")
+                    {
+                        <option selected>Male</option>
+                        <option>Female</option>
+                    }
+                    else
+                    {
+                        <option>Male</option>
+                        <option selected>Female</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="DOB">Date of Birth</label>
+                <input name="DOB" type="text" class="datepicker form-control" id="DOB" value="@Model.DOB">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Age">Age</label>
+                <input name="Age" type="text" class="form-control" id="Age" value="@Model.Age" disabled>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="BMI">BMI</label>
+                <input name="BMI" type="text" class="form-control @bmiColor" id="BMI" value="@Model.BMI (@Model.BMIState)" disabled>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Edit</button>
+    </form>
 </div>
 
 @section scripts {

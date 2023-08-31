@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using HealthTracker.Data;
+using HealthTracker.Models;
 
 namespace HealthTracker.DTOs;
 
@@ -36,4 +37,20 @@ public record BPTrackingDto : BaseTrackingDto
 public record SleepTrackingDto : BaseTrackingDto
 {
     public double Hours { get; set; }
+}
+
+public class DiabetesData
+{
+    public UserInformation User { get; set; }
+    public bool Prediction { get; set; }
+
+    public DiabetesData()
+    {
+    }
+
+    public DiabetesData(UserInformation user, bool prediction)
+    {
+        User = user;
+        Prediction = prediction;
+    }
 }

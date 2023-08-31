@@ -1,0 +1,155 @@
+﻿@using HealthTracker.Data
+@model HealthTracker.DTOs.DiabetesData;
+
+@{
+    ViewData["Title"] = "Diabetes Prediction";
+}
+
+<div class="container">
+    @*Display prediction if user has input medical information*@
+    @if (Model.User.MedicalHistory.EnteredMedicalHistory)
+    {
+        <span>@Model.Prediction</span>
+        <form asp-controller="Home" asp-action="ResetDiabetes" method="post">
+            <button type="submit" class="btn btn-primary mt-2">Reset information</button>
+        </form>
+    }
+    @*Display questions otherwise*@
+    else
+    {
+        <h1>Enter medical history</h1>
+        <h4>Please answer these questions to proceed</h4>
+        <form asp-controller="Home" asp-action="Diabetes" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polyuria, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Polyuria">
+                            Do you experience frequent and excessive urination? (Polyuria)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polydipsia, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Polydipsia">
+                            Do you often feel unusually thirsty and find yourself drinking a lot of fluids? (Polydipsia)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.SuddenWeightLoss, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="SuddenWeightLoss">
+                            Have you experienced any rapid and unexplained weight loss recently?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Weakness, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Weakness">
+                            Do you often feel weak or lack energy?
+                        </label>
+                    </div>
+                </div>
+            </div>            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polyphagia, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Polyphagia">
+                            Do you find yourself unusually hungry and eating larger amounts of food? (Polyphagia)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.GenitalThrush, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="GenitalThrush">
+                            Have you experienced genital thrush or itching in the genital area?
+                        </label>
+                    </div>
+                </div>
+            </div>            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.VisualBlurring, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="VisualBlurring">
+                            Do you frequently experience blurred vision?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Itching, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Itching">
+                            Do you have persistent itching on your skin?
+                        </label>
+                    </div>
+                </div>
+            </div>            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Irritability, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Irritability">
+                            Have you been feeling more irritable or moody than usual?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.DelayedHealing, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="DelayedHealing">
+                            Do your cuts and wounds take longer than usual to heal?
+                        </label>
+                    </div>
+                </div>
+            </div>            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.PartialParesis, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Polyuria">
+                            Do you have any muscle weakness or difficulty moving certain body parts?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.MuscleStiffness, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="MuscleStiffness">
+                            Do you experience muscle stiffness or difficulty moving your muscles?
+                        </label>
+                    </div>
+                </div>
+            </div>            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Alopecia, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Alopecia">
+                            Have you noticed any hair loss or bald patches on your scalp? (Alopecia)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Obesity, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="Obesity">
+                            Would you describe your body weight as significantly above the healthy range?
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+    }
+</div>
+
+@section scripts {
+    <script>
+        $(function(){
+            $('#Diabetes').addClass("active");
+        });
+    </script>
+}
