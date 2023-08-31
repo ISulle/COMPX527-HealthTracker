@@ -4,26 +4,69 @@
 @{
     ViewData["Title"] = "Diabetes Prediction";
 }
-
-<div class="container">
-    @*Display prediction if user has input medical information*@
-    @if (Model.User.MedicalHistory.EnteredMedicalHistory)
-    {
-        <span>@Model.Prediction</span>
-        <form asp-controller="Home" asp-action="ResetDiabetes" method="post">
-            <button type="submit" class="btn btn-primary mt-2">Reset information</button>
-        </form>
+<style>
+/*    #csvTable th.rotate {
+        height: 140px;
+        white-space: nowrap;
     }
-    @*Display questions otherwise*@
-    else
-    {
+
+    #csvTable th.rotate > div {
+        transform: rotate(270deg);
+        width: 30px;
+        white-space: nowrap;
+        text-align: left;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform-origin: 50% 100%;
+    }*/
+
+    #csvTable tr.rotate {
+        max-width: 10px !important;
+    }
+</style>
+
+@*Display prediction if user has input medical information*@
+@if (Model.User.MedicalHistory.EnteredMedicalHistory)
+{
+    <div class="container">
+        <h1>Diabetes Prediction</h1>
+        <div>
+            @if (Model.Prediction)
+            {
+                <span class="red">Based on your input, you have a high likelihood of testing positive for diabetes.</span>
+            }
+            else
+            {
+                <span class="green">Based on your input, you do not have a high likelihood of testing positive for diabetes.</span>
+            }
+            <form asp-controller="Home" asp-action="ResetDiabetes" method="post">
+                <button type="submit" class="btn btn-primary mt-2">Reset information</button>
+            </form>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <table id="csvTable" class="display">
+            <thead>
+            <!-- DataTables will auto-generate this -->
+            </thead>
+            <tbody>
+            <!-- DataTables will auto-generate this -->
+            </tbody>
+        </table>
+    </div>
+}
+@*Display questions otherwise*@
+else
+{
+    <div class="container">
         <h1>Enter medical history</h1>
         <h4>Please answer these questions to proceed</h4>
         <form asp-controller="Home" asp-action="Diabetes" method="post">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polyuria, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polyuria, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Polyuria">
                             Do you experience frequent and excessive urination? (Polyuria)
                         </label>
@@ -31,7 +74,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polydipsia, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polydipsia, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Polydipsia">
                             Do you often feel unusually thirsty and find yourself drinking a lot of fluids? (Polydipsia)
                         </label>
@@ -41,7 +84,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.SuddenWeightLoss, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.SuddenWeightLoss, new {@class = "form-check-input"})
                         <label class="form-check-label" for="SuddenWeightLoss">
                             Have you experienced any rapid and unexplained weight loss recently?
                         </label>
@@ -49,16 +92,17 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Weakness, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Weakness, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Weakness">
                             Do you often feel weak or lack energy?
                         </label>
                     </div>
                 </div>
-            </div>            <div class="form-row">
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polyphagia, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Polyphagia, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Polyphagia">
                             Do you find yourself unusually hungry and eating larger amounts of food? (Polyphagia)
                         </label>
@@ -66,16 +110,17 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.GenitalThrush, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.GenitalThrush, new {@class = "form-check-input"})
                         <label class="form-check-label" for="GenitalThrush">
                             Have you experienced genital thrush or itching in the genital area?
                         </label>
                     </div>
                 </div>
-            </div>            <div class="form-row">
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.VisualBlurring, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.VisualBlurring, new {@class = "form-check-input"})
                         <label class="form-check-label" for="VisualBlurring">
                             Do you frequently experience blurred vision?
                         </label>
@@ -83,16 +128,17 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Itching, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Itching, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Itching">
                             Do you have persistent itching on your skin?
                         </label>
                     </div>
                 </div>
-            </div>            <div class="form-row">
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Irritability, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Irritability, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Irritability">
                             Have you been feeling more irritable or moody than usual?
                         </label>
@@ -100,16 +146,17 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.DelayedHealing, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.DelayedHealing, new {@class = "form-check-input"})
                         <label class="form-check-label" for="DelayedHealing">
                             Do your cuts and wounds take longer than usual to heal?
                         </label>
                     </div>
                 </div>
-            </div>            <div class="form-row">
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.PartialParesis, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.PartialParesis, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Polyuria">
                             Do you have any muscle weakness or difficulty moving certain body parts?
                         </label>
@@ -117,16 +164,17 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.MuscleStiffness, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.MuscleStiffness, new {@class = "form-check-input"})
                         <label class="form-check-label" for="MuscleStiffness">
                             Do you experience muscle stiffness or difficulty moving your muscles?
                         </label>
                     </div>
                 </div>
-            </div>            <div class="form-row">
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Alopecia, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Alopecia, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Alopecia">
                             Have you noticed any hair loss or bald patches on your scalp? (Alopecia)
                         </label>
@@ -134,7 +182,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="form-check">
-                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Obesity, new { @class = "form-check-input" })
+                        @Html.CheckBoxFor(model => model.User.MedicalHistory.Obesity, new {@class = "form-check-input"})
                         <label class="form-check-label" for="Obesity">
                             Would you describe your body weight as significantly above the healthy range?
                         </label>
@@ -143,13 +191,41 @@
             </div>
             <button type="submit" class="btn btn-primary mt-2">Submit</button>
         </form>
-    }
-</div>
+    </div>
+}
 
 @section scripts {
     <script>
-        $(function(){
+        $(function() {
             $('#Diabetes').addClass("active");
+
+            $.ajax({
+                url: '/Home/GetCsvData',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#csvTable').DataTable({
+                        data: data,
+                        columns: Object.keys(data[0]).map(function(key) {
+                            return {
+                                title: key,
+                                data: key,
+                                render: function(data, type, row) {
+                                    if (data === "Yes" || data === "No") {
+                                        return '<input type="checkbox" ' + (data === "Yes" ? 'checked' : '') + ' disabled>';
+                                    }
+                                    return data;
+                                }
+                            };
+                        })
+                    });
+                    // After table initialization, apply the rotate class to headers
+                    $('#csvTable tr').addClass('rotate').each(function() {
+                        var content = $(this).html();
+                        $(this).html('<div>' + content + '</div>');
+                    });
+                }
+            });
         });
     </script>
 }
