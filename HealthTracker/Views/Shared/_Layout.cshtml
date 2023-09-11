@@ -22,23 +22,35 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index" id="Profile">Profile</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index" id="Home">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Dashboard" id="Dashboard" asp-route-from="@DateTime.UtcNow.AddDays(-7)">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Diabetes" id="Diabetes">Diabetes Prediction</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-controller="Home" asp-action="Profile" id="Profile">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Dashboard" id="Dashboard" asp-route-from="@DateTime.UtcNow.AddDays(-7)">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Diabetes" id="Diabetes">Diabetes Prediction</a>
+                            </li>
+                        }
                     </ul>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <ul class="navbar-nav">
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Account" asp-action="SignOut">SignOut</a>
                             </li>
-                        </ul>
-                    }
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Profile">SignIn</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>

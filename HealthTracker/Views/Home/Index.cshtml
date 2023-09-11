@@ -1,69 +1,122 @@
-﻿@using HealthTracker.Data
-@model UserInformation;
-
-@{
-    ViewData["Title"] = "Profile";
-    var bmiColor = Helpers.CalculateBMIColor(Model.BMI);
+﻿@{
+    ViewData["Title"] = "Home";
 }
-
-<div class="container">
-    <h1>Profile</h1>
-    <form asp-controller="Home" asp-action="Index" method="post">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="Name">Name</label>
-                <input name="Name" type="text" class="form-control" id="Name" value="@Model.Name">
+<style>
+    #carousel, #carousel img {
+        height: calc(100vh - 50px);
+        max-height: calc(100vh - 50px);
+        object-fit: cover;
+    }
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.5);
+        height: 25vh;
+        border-radius: 15px;
+        width: 50vw;
+    }
+    .vertical-center {
+        margin: 0;
+        position: absolute;
+        top: 25%;
+        -ms-transform: translateY(-25%);
+        transform: translateY(-25%);
+    }
+</style>
+<div id="carousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/images/carousel-1.jpg" class="d-block w-100" alt="carousel-1">
+            <div class="carousel-caption d-none d-md-block pt-5 ps-5 vertical-center">
+                <div class="text-start">
+                    <h2>Hydrate Right, Eat Smart</h2>
+                    <h5>Monitor your daily water intake and calorie consumption to stay on top of your health</h5>
+                </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="Height">Height (cm)</label>
-                <input name="Height" type="number" class="form-control" id="Height" value="@Model.Height">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="Weight">Weight (kg)</label>
-                <input name="Weight" type="number" class="form-control" id="Weight" value="@Model.Weight">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="Gender">Gender</label>
-                <select name="Gender" id="Gender" class="form-control">
-                    @if (Model.Gender == "Male")
-                    {
-                        <option selected>Male</option>
-                        <option>Female</option>
-                    }
-                    else
-                    {
-                        <option>Male</option>
-                        <option selected>Female</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="DOB">Date of Birth</label>
-                <input name="DOB" type="text" class="datepicker form-control" id="DOB" value="@Model.DOB">
+        <div class="carousel-item">
+            <img src="~/images/carousel-2.jpg" class="d-block w-100" alt="carousel-2">
+            <div class="carousel-caption d-none d-md-block pt-5 ps-5 vertical-center">
+                <div class="text-start">
+                    <h2>Restful Nights, Healthy Hearts</h2>
+                    <h5>Track your sleep patterns and monitor your heart rate to ensure you're at your best every day</h5>
+                </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="Age">Age</label>
-                <input name="Age" type="text" class="form-control" id="Age" value="@Model.Age" disabled>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="BMI">BMI</label>
-                <input name="BMI" type="text" class="form-control @bmiColor" id="BMI" value="@Model.BMI (@Model.BMIState)" disabled>
+        <div class="carousel-item">
+            <img src="~/images/carousel-3.jpg" class="d-block w-100" alt="carousel-3">
+            <div class="carousel-caption d-none d-md-block pt-5 ps-5 vertical-center">
+                <div class="text-start">
+                    <h2>Awareness is the First Step</h2>
+                    <h5>Assess your risk of diabetes and take proactive measures for a healthier tomorrow</h5>
+                </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-2">Edit</button>
-    </form>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="mt-2 container">
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="~/images/card-1.jpg" class="img-fluid rounded-start" alt="card-1">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Hydration & Nutrition at Your Fingertips</h5>
+                    <p class="card-text">Stay on top of your daily hydration and nutrition goals. 
+                        Our intuitive tracker helps you monitor water intake and caloric consumption, 
+                        ensuring you fuel your body efficiently. Prioritize health with every sip and bite</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Restful Nights & Heartfelt Days</h5>
+                    <p class="card-text">Unlock the secrets of your sleep patterns and heart rate. 
+                        With our state-of-the-art tracking, understand the quality of your rest and your heart's rhythm. 
+                        Embrace balance by ensuring adequate sleep and a steady heartbeat</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <img src="~/images/card-2.jpg" class="img-fluid rounded-start" alt="card-2">
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="~/images/card-3.jpg" class="img-fluid rounded-start" alt="card-3">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Empowerment Through Knowledge</h5>
+                    <p class="card-text">Knowledge is the first step towards prevention. 
+                        Using Machine Learning algorithms, we analyze your medical history to provide insights into your potential diabetes risk. 
+                        Stay informed, stay proactive, and take charge of your health's future</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section scripts {
     <script>
         $(function(){
-            $('#Profile').addClass("active");
+            $('#Index').addClass("active");
         });
     </script>
 }

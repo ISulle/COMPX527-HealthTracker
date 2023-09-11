@@ -41,7 +41,13 @@ public class HomeController : Controller
     private async Task<UserInformation> GetUser()
         => await _context.LoadAsync<UserInformation>(GetUsername());
 
+    [AllowAnonymous]
     public async Task<IActionResult> Index()
+    {
+        return View();
+    }
+
+    public async Task<IActionResult> Profile()
     {
         var user = await GetUser();
         // Redirect user to finish registering if needed
@@ -64,11 +70,12 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Index(UserDto dto)
+    public async Task<IActionResult> Profile(UserDto dto)
     {
         await SaveUser(dto);
-        return RedirectToAction("Index");
+        return RedirectToAction("Profile");
     }
+
 
     public async Task<IActionResult> Register()
     {
@@ -76,14 +83,16 @@ public class HomeController : Controller
         var user = await GetUser();
         if (user == null)
             return View();
-        return RedirectToAction("Index");
+        return RedirectToAction("Profile");
     }
 
     [HttpPost]
     public async Task<IActionResult> Register(UserDto dto)
     {
-        await SaveUser(dto);
-        return RedirectToAction("Index");
+        var username = GetUsername();
+        var user = new UserInformation(username, dto.Name, dto.Gender, dto.DOB, dto.Height, dto.Weight);
+        await _context.SaveAsync(user);
+        return RedirectToAction("Profile");
     }
 
     public async Task<IActionResult> Dashboard(DateTime from)
